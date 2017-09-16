@@ -1,0 +1,34 @@
+body {
+  background-image: url("images/wallpaper.png");
+}
+
+#successfull_claim{
+	position: absolute;
+	left: 33%;	
+}
+
+#qrcode {
+	width: 280px;
+	height: 280px;
+	background-color: rgba(50,50,50,0.5);
+	padding: 25px;
+	position: absolute;
+}
+
+img {
+	position: absolute;
+	width: 275px;
+	height: auto;
+}
+
+#scanned_it {
+    padding: 25px;
+	position: absolute;
+	top: 482%;
+	left: -7.6%;
+}
+
+input {
+	width: 330px;
+	height: 30px;
+}

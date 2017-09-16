@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <link rel="stylesheet" type="text/css" href="../../CSS/insurance_claim-style.css" />
+
+  <script src="../../JavaScript/index-script.js" type="text/javascript"></script>
+  <script type = "text/javascript">
+   window.onload = function () {
+      function changeImage() {   
+          var BackgroundImg["5.1_storm_based_insurance.png",
+              "5.2 hail_based_insurance.png",
+              "5.3 frost_based_insurance.png"
+          ];
+          var i = Math.floor((Math.random() * 3));
+          document.body.style.backgroundImage = 'url(images/'  + BackgroundImg[i] + '")';
+      }
+      window.setInterval(changeImage, 1000);
+     }
+   </script>
+
+</head> 
+<title>Claim Process</title>
+
+<body>
+
+  <div id="bar_up"></div>
+  <div id="successfull_claim">
+    <p id = "title">To put a claim forward, do the following</p>
+  </div>
+  <div id="bar_down"></div>
+
+ <div id="box">
+ 
+   <div id ="damageTime">
+    <p>When did the damage happen?</p>
+    <br>
+    <input type="text" value="31.12.2016" name="date">
+   </div>
+
+  <div id ="cause">
+    <p>Indicate what the damage was due to?</p>
+    <br>
+    <input type="text" value="hail" name="date">
+  </div>
+  
+  <div id="qrcode">
+    <p>Generate a QR Code with the button below, scan the QR code with our mobile phone and take up to 5 pictures of your damage. <br> 
+           By hitting the generate QR button, you also send us your answers from step one and two. If your claim is approved, you will receive the money withiin 5 days.</p><br>
+    <input id="submitButton" type="submit" value="Generate QR Code" onclick="redirect_to_qr_code()">
+ </div> 
+
+  
+</div>
+
+
+
+  
+</div>
+
+
+</body>
+
+</html>
