@@ -44,18 +44,18 @@ elif os.path.isfile('vcap-local.json'):
 # When running this app on the local machine, default the port to 8000
 port = int(os.getenv('PORT', 8000))
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/',methods=['GET','POST'])#,methods=['GET','POST'])
 def home():
     print(url_for('home'))
     print(url_for('static',filename='Javascript'))
     print(url_for('static',filename='CSS'))
-
-    if request.method == 'POST':
-        return jsonify(dict(redirect=url_for(login)))
-
+    # if request.method == 'POST':
+    #     print(request['POST'])
+    #     print(dict(redirect=url_for(login)))
+    #     return jsonify(dict(redirect=url_for(login)))
     return render_template('index.html')
 
-@app.route('/UserVerification/login')
+@app.route('/UserVerification/login',methods=['GET','POST'])
 def login():
     print("Welcome to login page")
     return render_template('UserVerification/login.html')
@@ -250,22 +250,31 @@ class spatial_report:
 
         start_date = '2000-01-01T04:00:00.000z'
         response = get_lastest_weather_report(state=state_acronyms[state],incidentBeginDate=start_date)
-        self.data_disasters = response.json()['DisasterDeclarationsSummaries']
 
-        self.data_disasters_county = [q for q in self.data_disasters if q['declaredCountyArea'] == '%s (County)' %county]
-        self.number_disasters = len(self.data_disasters)
-        self.number_disasters_county = len(self.data_disasters_county)
-        self.disasters_by_type = get_occurence_by_incident(self.data_disasters,'incidentType')
-        self.disasters_county_by_type = get_occurence_by_incident(self.data_disasters_county,'incidentType')
+        if response.status_code == '200':
+            self.data_disasters = response.json()['DisasterDeclarationsSummaries']
 
-        print('\n\n===== No. of disasters in %s =======' %(state))
-        print(self.number_disasters)
-        print(self.disasters_by_type)
+            self.data_disasters_county = [q for q in self.data_disasters if q['declaredCountyArea'] == '%s (County)' %county]
+            self.number_disasters = len(self.data_disasters)
+            self.number_disasters_county = len(self.data_disasters_county)
+            self.disasters_by_type = get_occurence_by_incident(self.data_disasters,'incidentType')
+            self.disasters_county_by_type = get_occurence_by_incident(self.data_disasters_county,'incidentType')
+
+            print('\n\n===== No. of disasters in %s =======' %(state))
+            print(self.number_disasters)
+            print(self.disasters_by_type)
 
 
-        print('\n\n===== No. of disasters in %s, %s =======' %(state,county))
-        print(self.number_disasters_county)
-        print(self.disasters_county_by_type)
+            print('\n\n===== No. of disasters in %s, %s =======' %(state,county))
+            print(self.number_disasters_county)
+            print(self.disasters_county_by_type)
+        else:
+            self.disasters_county_by_type = []
+            self.disasters_by_type = []
+
+            self.number_disasters = 1
+            self.number_disasters_county = 1
+
 
 
 
