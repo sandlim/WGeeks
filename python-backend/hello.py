@@ -67,7 +67,7 @@ def get_lastest_weather_report(state=None,incidentType=None,incidentBeginDate=No
     url = 'https://www.fema.gov/api/open/v1/DisasterDeclarationsSummaries'
 
     #disasterType: major disaster (MD), fire management (FM) or emergency declaration (EM)
-    select = 'disasterNumber,state,disasterType,incidentBeginDate,incidentEndDate,incidentType,placeCode',
+    select = 'disasterNumber,state,disasterType,incidentBeginDate,incidentEndDate,incidentType,placeCode,declaredCountyArea',
 
     params = {'$select':select,
               '$top':top,
@@ -96,7 +96,7 @@ def get_lastest_weather_report(state=None,incidentType=None,incidentBeginDate=No
 
 def export_response_to_csv(response):
     data = response.json()['DisasterDeclarationsSummaries']
-    keys = [q for q in data[0]]
+    keys = [key for key in data[0]]
     print(keys)
     with open('incidents.csv','w') as csv:
         csv.write(','.join(keys)+'\n')
