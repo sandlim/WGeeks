@@ -1,0 +1,287 @@
+body {
+  background-image: url("images/wallpaper.png");
+}
+
+img {
+    width: 70px; 
+    height: auto;
+}
+
+li {
+  list-style-type: none;
+  margin-top: 3px;
+}
+
+ul {
+	margin-left: 5px;	
+	margin-top: 5px;
+	padding-left: 2px;
+	padding-top: 2px;
+	float: left;
+}
+
+#bar_up {
+
+	margin-top: 8px;
+	background-color: rgb(0,0,255);
+    border: 2px;
+	border-color:rgb(0,0,255);
+	border-style: outset;
+	margin-left: -8px;
+	width: 101%;
+
+}
+
+
+#bar_down{
+
+	background-color: rgb(0,0,255);
+    border: 2px;
+	border-color:rgb(0,0,255);
+	border-style: inset;
+	margin-left: -8px;
+	width: 101%;
+
+}
+
+
+
+#navbar {
+
+	background-color: rgba(200,200,200,0.5);
+	position: relative;
+    width: 101.5%;
+	height: 40px;
+	color: white;
+	margin-left: -8px;
+}
+
+.buttons {
+	list-style-type: none;
+	font-size: 26px;
+	padding-left: 20px;
+	padding-top: 4px;
+	position: absolute;
+    top: -22px;
+	border: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	border-color: rgb(0,0,130);
+	background-color: rgba(50,50,50,0.3);
+	line-height: 22px;
+}
+
+#title {
+    left: 5px;
+    width: 296px;
+	height: 26px;
+	border-color: rgba(0,0,0,0);
+	background-color: rgba(0,0,0,0);
+}
+
+#changeLocation {
+	left: 230px;
+    width: 200px;
+	height: 26px;	
+}
+
+#choice {
+    left: 640px;
+    width: 280px;
+	height: 26px;	
+}
+
+#claimFile {
+	left: 460px;
+    width: 150px;
+	height: 26px;	
+}
+
+#logout {
+    left: 950px;
+    width: 100px;
+	height: 26px;	
+}
+
+#pictures {
+	position: absolute;
+	top: 15%;
+	left: 2%;
+	width: 250px;
+	height: 400px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,130);
+	border-radius: 5px;
+	background-color: rgba(150,150,150,0.5);
+}
+
+.bars  {
+	background-color: rgba(50,50,50,0.5);
+	width: 150px;
+	text-align: center;
+	color: black;
+}
+
+
+#frostbar {
+	height: 67px;
+}
+
+#hailbar {
+	height: 62px;
+	margin-top: 5px;
+}
+
+#droughtbar {
+	height: 82px;
+	margin-top: 6px;
+}
+
+#floodingbar {
+	height: 77px;
+	margin-top: 6px;
+}
+
+#stormbar {
+	height: 65px;
+	margin-top: 6px;
+	
+}
+
+#frostpercent {
+	width: 20px;
+	height: 50px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	background-color: green;
+	position: relative;
+	top: 7px;
+	left: 5px;
+}
+
+#hailpercent {
+	width: 80px;
+	height: 50px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	background-color: yellow;
+	position: relative;
+	top: 5px;
+	left: 5px;	
+	
+}
+
+#droughtpercent {
+	width: 50px;
+	height: 70px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	background-color: yellow;
+	position: relative;
+	top: 5px;
+	left: 5px;		
+}
+
+#floodingpercent {
+	width: 130px;
+	height: 65px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	background-color: red;
+	position: relative;
+	top: 5px;
+	left: 5px;	
+}
+
+#stormpercent {
+	width: 100px;
+	height: 53px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	background-color: red;
+	position: relative;
+	top: 5px;
+	left: 5px;		
+}
+
+.dashboardBoxes {
+    border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	border-radius: 5px;
+	text-align: center;
+	color: white;
+	background-color: rgba(150,150,150,0.5);
+	position: absolute;	
+}
+
+#recentDisasters {
+	height: 140px;
+	width: 450px;
+	top: 65%;
+	left: 27%;	
+}
+
+#sandarAPI {
+	height: 250px;
+	width: 300px;
+	top: 15%;
+	left: 70.4%;
+
+}
+
+#recentClaims {
+	height: 250px;
+	width: 450px;
+	top: 15%;
+	left: 27%;
+}
+
+#somethingElse {
+	height: 140px;
+	width: 300px;
+	top: 65%;
+	left:70.4%;	
+}
+
+#claimHeading {
+    border: solid;
+	border-width: 1px;
+	border-color: rgb(200,200,200);	
+	border-radius: 5px;
+	width: 90%;
+	font-size: 20px;
+	margin-left: 20px;
+	background-color: rgba(50,50,50,0.5);
+}
+
+.multi-column {
+   columns: 4;
+}
+
+.multi-column li {
+	color: rgb(50,50,50);
+	padding: 5px;
+	margin-left: 10px;
+	border: solid;
+	border: 1px;
+	border-color: rgb(50,50,50);
+	border-radius: 5px;
+	background-color: rgba(50,50,50,0.3);
+	width: 70px;
+	height: 25px;
+}
+
+#api {
+	position: absolute;
+	top: 5%;
+	left: 1%;
+    width: 292px; 
+    height: auto;	
+}

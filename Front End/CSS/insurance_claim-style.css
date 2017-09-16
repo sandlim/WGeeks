@@ -1,0 +1,76 @@
+body {
+  background-image: url("images/5.1_storm_based_insurance.png");
+}
+
+#bar_up {
+
+	margin-top: 8px;
+	background-color: rgb(0,0,255);
+    border: 2px;
+	border-color:rgb(0,0,255);
+	border-style: outset;
+	margin-left: -8px;
+	width: 101%;
+
+}
+
+
+#bar_down{
+
+	background-color: rgb(0,0,255);
+    border: 2px;
+	border-color:rgb(0,0,255);
+	border-style: inset;
+	margin-left: -8px;
+	width: 101%;
+
+}
+
+#successfull_claim{
+	background-color: rgba(200,200,200,0.5);
+    padding: 1px;
+	margin-left: -8px;
+    width: 101%;
+}
+
+p {
+	margin-left: 5px;
+	height: 2px;
+	color: rgb(250,250,250);
+}
+
+
+#title {
+    margin-left: 15px;
+	height: 15px;
+	color: white;
+}
+
+#box {
+	width: 600px;
+	height: 300px;
+	background-color: rgba(150,150,150,0.5);
+	position: absolute;
+	top: 15%;
+	left: 0.5%;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	padding: 5px;
+}
+
+input {
+	margin-left: 5px;
+}
+
+#submitButton {
+	width: 590px;
+	height: 50px;
+	padding-left: 25px;
+	position: absolute;
+	top: 81.5%;
+}
+
+
+
+

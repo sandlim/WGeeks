@@ -1,0 +1,53 @@
+body {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+  background-image: url("images/wallpaper.png");
+}
+
+p {
+	color: white;
+	font-size: 40px;
+	position: absolute;
+	top: -25%;
+}
+
+.logout {
+	padding: 20px;
+	background-color: rgba(50,50,50,0.5);
+	position: absolute;
+	top: 8%;
+	left: 0%;
+    width: 97%;
+	height: 40px;
+	color: white;
+	margin-left: -8px;
+}
+
+.thanks {
+	padding: 20px;
+	background-color: rgba(50,50,50,0.5);
+	position: absolute;
+	top: 40%;
+	left: 10%;
+    width: 300px;
+	height: 200px;
+	color: white;
+	margin-left: -8px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	border-radius: 5px;
+}
+
+#gratitude {
+ top: -5%;	
+}
+
+input {
+	position: absolute;
+	top: 70%;
+	width: 150px;
+	height: 25px;
+}
+

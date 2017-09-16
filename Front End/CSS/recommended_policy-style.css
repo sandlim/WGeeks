@@ -1,0 +1,64 @@
+body {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+  background-image: url("images/wallpaper.png");
+}
+
+#suggestion {
+	color: white;
+	font-size: 23px;
+}
+
+#policy {
+	padding: 5px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	border-radius: 7px;
+	position: absolute;
+	top: 1%;
+	left: 1%;
+	padding-left: 15px;
+	padding-top: 5px;
+	width: 645px;
+	height: 470px;
+	background-color: rgba(50,50,50,0.5);
+}
+
+#apply {
+	padding: 5px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	border-radius: 7px;
+	position: absolute;
+	top: 43%;
+	left: 63%;
+	width: 380px;
+	height: 251px;
+	background-color: rgba(50,50,50,0.5);
+	color: white;
+	font-size: 30px;
+    text-align: center;	
+}
+
+#numbers {
+	padding: 5px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(0,0,120);
+	border-radius: 7px;
+	position: absolute;
+	top: 1%;
+	left: 63%;
+	width: 380px;
+	height: 200px;
+	background-color: rgba(50,50,50,0.5);	
+	color: white;
+}
+
+input {
+	width: 380px;
+	height: 30px;
+}
