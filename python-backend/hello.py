@@ -1,29 +1,23 @@
 from cloudant import Cloudant
-from flask import Flask, render_template, request, jsonify
+#from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, jsonify, url_for, render_template, redirect, request
 import atexit
 import cf_deployment_tracker
 import os
 import json
 import requests
-import gdal
-import numpy as np
 import pandas as pd
-
-
-state_acronyms = {'Florida':'FL'}
-
-
+from states import state_acronyms
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
 
-app = Flask(__name__)
+template_dir = os.path.abspath('frontend')
+app = Flask(__name__,template_folder=template_dir,static_folder='frontend',static_url_path='')
 
 db_name = 'mydb'
 client = None
 db = None
-
-
 
 if 'VCAP_SERVICES' in os.environ:
     vcap = json.loads(os.getenv('VCAP_SERVICES'))
@@ -50,9 +44,84 @@ elif os.path.isfile('vcap-local.json'):
 # When running this app on the local machine, default the port to 8000
 port = int(os.getenv('PORT', 8000))
 
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def home():
+    print(url_for('home'))
+    print(url_for('static',filename='Javascript'))
+    print(url_for('static',filename='CSS'))
+
+    if request.method == 'POST':
+        return jsonify(dict(redirect=url_for(login)))
+
     return render_template('index.html')
+
+@app.route('/UserVerification/login')
+def login():
+    print("Welcome to login page")
+    return render_template('UserVerification/login.html')
+
+
+
+
+@app.route('/UserVerification/Dashboard/dashboard')
+@app.route('/UserVerification/Dashboard/dashboard/<country>/<state>/<county>')
+def dashboard(country=None,state=None,county=None):
+    print(country,state,county)
+
+    if country is None:
+        country = 'USA'
+    if state is None:
+        state = 'Florida'
+    if county is None:
+        county = 'Charlotte'
+
+
+    report = spatial_report(state=state,county=county)  
+
+    # Weather reports  
+    weather_scores = {'frost':0,
+                      'hail':0,
+                      'drought':0,
+                      'flood':0,
+                      'storm':0}
+
+    if 'Freezing' in report.disasters_county_by_type:
+        weather_scores['frost'] += report.disasters_county_by_type['Freezing']
+    if 'Snow' in report.disasters_county_by_type:
+        weather_scores['frost'] += report.disasters_county_by_type['Snow']
+
+    if 'Fire' in report.disasters_county_by_type:
+        weather_scores['drought'] += report.disasters_county_by_type['Fire']
+
+    if 'Hurricane' in report.disasters_county_by_type:
+        weather_scores['storm'] += report.disasters_county_by_type['Hurricane']
+    if 'Severe Storm(s)' in report.disasters_county_by_type:
+        weather_scores['storm'] += report.disasters_county_by_type['Severe Storm(s)']
+    if 'Coastal Storm' in report.disasters_county_by_type:
+        weather_scores['storm'] += report.disasters_county_by_type['Coastal Storm']
+    
+    if 'Flood' in report.disasters_county_by_type:
+        weather_scores['flood'] += report.disasters_county_by_type['Flood']
+
+    print(weather_scores)
+    for i in weather_scores:
+        weather_scores[i] = int(100*weather_scores[i]/report.number_disasters_county)
+
+
+    #Insurance reports
+    claims_dict = report.data_claims_state_county.to_dict()
+    for i in claims_dict:
+        claims_dict[i] =  claims_dict[i][next(iter(claims_dict[i]))]
+
+    policies_dict = report.data_policies_state_county.to_dict()
+    for i in policies_dict:
+        policies_dict[i] = policies_dict[i][next(iter(policies_dict[i]))]
+    print(claims_dict)
+    print(policies_dict)
+
+    return render_template('UserVerification/Dashboard/dashboard.html',weather_scores=weather_scores,claims_dict=claims_dict,policies_dict=policies_dict)
+
+
 
 @app.route('/request')
 def request_data():
@@ -63,12 +132,13 @@ def request_data():
     response = get_lastest_weather_report('FL','Flood')
 
     query_url = response.url
-    summaries = response.json()['DisasterDeclarationsSummaries']
     status_code = response.status_code
-
+    if status_code == '200':
+        summaries = response.json()['DisasterDeclarationsSummaries']
+    else:
+        summaries = ['Access denied: %s' %status_code]
     print(status_code)
     print(query_url)
-
     return render_template('data.html',query_url=query_url,status_code=status_code,summaries=summaries)
 
 
@@ -103,7 +173,8 @@ def get_lastest_weather_report(state=None,incidentType=None,incidentBeginDate=No
 
     response = requests.get(url,params=params)
 
-    export_response_to_csv(response)
+    if response.status_code == '200':
+        export_response_to_csv(response)
 
     return response
 
@@ -118,6 +189,9 @@ def export_response_to_csv(response):
 
 
 def export_geotiff_to_npy():
+    import gdal
+    import numpy as np
+
     input_file = 'fl_risk_20170916104510_tiff/fl1010irmt.tif'
     output_file = 'out.raster'    
     ds = gdal.Open(input_file)
@@ -152,42 +226,46 @@ def get_occurence_by_incident(data,incident):
     return dictionary
 
 
-def get_spatial_report(state='Florida',county='Charlotte'):
+class spatial_report:
 
-    input_claims = 'formatted_claims_county.txt'
-    input_policies = 'formatted_policies_county.txt'
-    data_claims = pd.read_csv(input_claims,sep='\t')
-    data_policies = pd.read_csv(input_policies,sep='\t')
-    data_claims_state = data_claims[data_claims['state'] == state.upper()]
-    data_claims_state_county = data_claims_state[data_claims_state['county'] == county.upper() + ' COUNTY']
-    data_policies_state = data_policies[data_policies['state'] == state.upper()]
-    data_policies_state_county = data_policies_state[data_policies_state['county'] == county.upper() + ' COUNTY']
+    def __init__(self,state='Florida',county='Charlotte'):
 
-    print('\n\n===== Claims in %s, %s =======' %(state,county))
-    print(data_claims_state_county.head())
+        input_claims = 'formatted_claims_county.txt'
+        input_policies = 'formatted_policies_county.txt'
 
-    print('\n\n===== Policies in %s, %s =======' %(state,county))
-    print(data_policies_state_county.head())
+        self.data_claims = pd.read_csv(input_claims,sep='\t')
+        self.data_policies = pd.read_csv(input_policies,sep='\t')
 
+        self.data_claims_state = self.data_claims[self.data_claims['state'] == state.upper()]
+        self.data_claims_state_county = self.data_claims_state[self.data_claims_state['county'] == county.upper() + ' COUNTY']
+        self.data_policies_state = self.data_policies[self.data_policies['state'] == state.upper()]
+        self.data_policies_state_county = self.data_policies_state[self.data_policies_state['county'] == county.upper() + ' COUNTY']
 
+        print('\n\n===== Claims in %s, %s =======' %(state,county))
+        print(self.data_claims_state_county.head())
 
-    start_date = '2000-01-01T04:00:00.000z'
-    response = get_lastest_weather_report(state=state_acronyms[state],incidentBeginDate=start_date)
-    data_disasters = response.json()['DisasterDeclarationsSummaries']
-    data_disasters_county = [q for q in data_disasters if q['declaredCountyArea'] == '%s (County)' %county]
-    number_disasters = len(data_disasters)
-    number_disasters_county = len(data_disasters_county)
-    disasters_by_type = get_occurence_by_incident(data_disasters,'incidentType')
-    disasters_county_by_type = get_occurence_by_incident(data_disasters_county,'incidentType')
-
-    print('\n\n===== No. of disasters in %s =======' %(state))
-    print(number_disasters)
-    print(disasters_by_type)
+        print('\n\n===== Policies in %s, %s =======' %(state,county))
+        print(self.data_policies_state_county.head())
 
 
-    print('\n\n===== No. of disasters in %s, %s =======' %(state,county))
-    print(number_disasters_county)
-    print(disasters_county_by_type)
+        start_date = '2000-01-01T04:00:00.000z'
+        response = get_lastest_weather_report(state=state_acronyms[state],incidentBeginDate=start_date)
+        self.data_disasters = response.json()['DisasterDeclarationsSummaries']
+
+        self.data_disasters_county = [q for q in self.data_disasters if q['declaredCountyArea'] == '%s (County)' %county]
+        self.number_disasters = len(self.data_disasters)
+        self.number_disasters_county = len(self.data_disasters_county)
+        self.disasters_by_type = get_occurence_by_incident(self.data_disasters,'incidentType')
+        self.disasters_county_by_type = get_occurence_by_incident(self.data_disasters_county,'incidentType')
+
+        print('\n\n===== No. of disasters in %s =======' %(state))
+        print(self.number_disasters)
+        print(self.disasters_by_type)
+
+
+        print('\n\n===== No. of disasters in %s, %s =======' %(state,county))
+        print(self.number_disasters_county)
+        print(self.disasters_county_by_type)
 
 
 
@@ -236,10 +314,15 @@ def shutdown():
         client.disconnect()
 
 
-get_spatial_report(state='Florida',county='Charlotte')
+
+#Test cases before going live:
+get_lastest_weather_report('FL','Flood')
+spatial_report(state='Florida',county='Charlotte')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)
+
+
 #    convert_geotiff_to_npy()
 
 

@@ -1,5 +1,5 @@
 ---
 applications:
- - name: PyNumberCrunch
+ - name: weather-geeks
    random-route: true
    memory: 128M
