@@ -7,7 +7,7 @@ import os
 import json
 import requests
 import pandas as pd
-from states import state_acronyms
+from states import state_acronyms, COUNTRY
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
@@ -44,24 +44,106 @@ elif os.path.isfile('vcap-local.json'):
 # When running this app on the local machine, default the port to 8000
 port = int(os.getenv('PORT', 8000))
 
-@app.route('/',methods=['GET','POST'])#,methods=['GET','POST'])
+
+
+@app.route('/',methods=['GET','POST'])
 def home():
-    print(url_for('home'))
-    print(url_for('static',filename='Javascript'))
-    print(url_for('static',filename='CSS'))
-    # if request.method == 'POST':
-    #     print(request['POST'])
-    #     print(dict(redirect=url_for(login)))
-    #     return jsonify(dict(redirect=url_for(login)))
+    print("Welcome to front page")
+    if request.method == 'POST':
+        if request.form['existingCustomer'] == 'Yes':
+            return redirect(url_for('login'))
+        if request.form['existingCustomer'] == 'No':
+            return redirect(url_for('register'))
     return render_template('index.html')
 
 @app.route('/UserVerification/login',methods=['GET','POST'])
 def login():
     print("Welcome to login page")
+    if request.method == 'POST':
+        if request.form['login_to_dashboard'] == 'Login':
+            return redirect(url_for('dashboard'))
     return render_template('UserVerification/login.html')
 
+@app.route('/UserVerification/register',methods=['GET','POST'])
+def register():
+    print("Welcome to register page")
+    if request.method == 'POST':
+        if request.form['Submit'] == 'Submit':
+            return redirect(url_for('choose_business'))
+    return render_template('UserVerification/register.html')
+
+@app.route('/UserVerification/ChooseBusiness/choose_business',methods=['GET','POST'])
+def choose_business():
+    print("Welcome to choice of business page")
+    industries = ['Tradesmen', 'Renewables', 'Manufacturer', 'IT', 'Farmer', 'Outdoor guide']
+    if request.method == 'POST':
+        if request.form['business']:
+            return redirect(url_for('choose_region'))
+    return render_template('UserVerification/ChooseBusiness/choose_business.html',industries=industries)
+
+@app.route('/UserVerification/ChooseBusiness/choose_region/<country>/<state>/<county>',methods=['GET','POST'])
+@app.route('/UserVerification/ChooseBusiness/choose_region/<country>/<state>',methods=['GET','POST'])
+@app.route('/UserVerification/ChooseBusiness/choose_region',methods=['GET','POST'])
+@app.route('/UserVerification/ChooseBusiness/choose_region/<country>',methods=['GET','POST'])
+def choose_region(country=None,state=None,county=None):
+    print("Welcome to choice of region page")
 
 
+    print(country)
+
+    countries = sorted([q for q in COUNTRY])
+    states = []
+    counties = []
+
+    if country is None:
+        country_chosen = False
+    else:
+        country_chosen = country#True
+        if country == 'United States':
+            states = sorted([q for q in state_acronyms])
+
+    if state is None:
+        state_chosen = False
+    else:
+        state_chosen = state#True
+        if country == 'United States' and state == 'Florida':
+            counties = ['Charlotte']       
+
+
+    print(request.method)
+
+    if request.method == 'POST':
+        # print(request.form['country'])
+        # print(request.form['state'])
+        # print(request.form['county'])
+        if country is None and request.form['country']:
+            print(request.form['country'])
+            print(url_for('choose_region',country=request.form['country']))
+            render_template(url_for('choose_region',country=request.form['country']))
+
+        # if state is None and request.form['state']:
+        #     redirect(url_for('choose_region',country=request.form['country'],state=request.form['state']))
+
+        # if request.form['county']:# and state is None and county is None:
+        #     redirect(url_for('dashboard'))
+
+    print(request.method)
+
+
+        # if request.form['country']:
+        #     country_chosen = True
+        #     if request.form['country'] == 'United States':
+        #         states = [q for q in state_acronyms]
+    # if request.method == 'POST':
+    #     if request.form['state']:
+    #         country_chosen = True
+    #         state_chosen = True
+    # if request.method == 'POST':
+    #     if request.form['region'] == 'Yes':
+    #         return redirect(url_for('dashboard'))
+
+    return render_template('UserVerification/ChooseBusiness/choose_region.html',countries=countries,
+        states=states,counties=counties,country_chosen=country_chosen,state_chosen=state_chosen)
 
 @app.route('/UserVerification/Dashboard/dashboard')
 @app.route('/UserVerification/Dashboard/dashboard/<country>/<state>/<county>')
