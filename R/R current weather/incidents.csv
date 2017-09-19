@@ -1,0 +1,21 @@
+incidentType,declaredCountyArea,disasterNumber,state,placeCode,incidentBeginDate,id,disasterType
+Hurricane,Walton (County),3385,FL,99131,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a9,EM
+Hurricane,Suwannee (County),3385,FL,99121,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a8,EM
+Hurricane,Martin (County),3385,FL,99085,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a4,EM
+Hurricane,Seminole (County),3385,FL,99117,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a7,EM
+Hurricane,Pinellas (County),3385,FL,99103,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a6,EM
+Hurricane,Highlands (County),3385,FL,99055,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a1,EM
+Hurricane,Baker (County),3385,FL,99003,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb99c,EM
+Hurricane,Okeechobee (County),3385,FL,99093,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a5,EM
+Hurricane,Flagler (County),3385,FL,99035,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb99f,EM
+Hurricane,Levy (County),3385,FL,99075,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a3,EM
+Hurricane,Columbia (County),3385,FL,99023,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb99e,EM
+Hurricane,Jefferson (County),3385,FL,99065,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a2,EM
+Hurricane,Calhoun (County),3385,FL,99013,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb99d,EM
+Hurricane,Gulf (County),3385,FL,99045,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb9a0,EM
+Hurricane,Sarasota (County),3385,FL,99115,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb989,EM
+Hurricane,Jackson (County),3385,FL,99063,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb984,EM
+Hurricane,Pasco (County),3385,FL,99101,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb988,EM
+Hurricane,Broward (County),3385,FL,99011,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb97f,EM
+Hurricane,Wakulla (County),3385,FL,99129,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb98b,EM
+Hurricane,Sumter (County),3385,FL,99119,2017-09-05T01:00:00.000Z,59af57f78d585ca31f3eb98a,EM
