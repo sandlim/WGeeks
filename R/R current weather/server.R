@@ -16,7 +16,7 @@ library(lubridate)
 library(rwunderground)
 suppressPackageStartupMessages(library(googleVis))
 
-rwunderground::set_api_key("72a63563ac6d4c03") #500 times a day only with sandar's account
+rwunderground::set_api_key("  ") #fill up your api key here
 
 #load("/Users/sandar/Desktop/WeatherGeeks/collected_data.Rdata")
 
